@@ -1,37 +1,23 @@
-//código JavaScript
-const initialCards = [
-  {
-    name: "Valle de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-  },
-  {
-    name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-  },
-  {
-    name: "Montañas Calvas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
-  },
-  {
-    name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
-  },
-  {
-    name: "Parque Nacional de la Vanoise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
-  },
-  {
-    name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
-  },
-];
+//código JavaScript index.js
+//importar funciones para validación de formularios
+import {
+  showInputError,
+  hideInputError,
+  toggleButtonState,
+} from "./validate.js";
 
+//importar tarjetas iniciales
+import { initialCards } from "./initial_cards.js";
+
+// Variables
+// #
 const profileSelect = document.querySelector(".profile"); //Sección del perfil
 const popupModal = document.querySelector("#edit-popup"); //Modal de edición del perfil
 const cardTemplate = document.querySelector("#card__template"); //Template de card
 const cardsContainer = document.querySelector(".cards__list"); //contenedor de cartas
 const addCardButton = document.querySelector(".profile__add-button"); //agregar carta button
 
+// #Modal añadir cartas
 const addCardPopupModal = document.querySelector("#new-card-popup"); // Modal de agregar carta
 const addCardCloseModalBtn = addCardPopupModal.querySelector(".popup__close"); // Boton cerrarModal de agregar carta
 const cardNameInput = addCardPopupModal.querySelector(
@@ -44,7 +30,7 @@ const imagePopupTitle = imagePopup.querySelector(".popup__caption");
 const imagePopupDisplay = imagePopup.querySelector(".popup__image");
 
 const cardLinkInput = addCardPopupModal.querySelector(".popup__input_type_url");
-const addCardForm = addCardPopupModal.querySelector("#new-card-form");
+const addCardForm = addCardPopupModal.querySelector("#new-card-form"); //formulario para agregar carta
 
 const profileEditBtn = document.querySelector(".profile__edit-button");
 const profileCloseEditBtn = popupModal.querySelector(".popup__close");
@@ -56,12 +42,19 @@ const formElement = popupModal.querySelector("#edit-profile-form"); //formulario
 const nameInput = formElement.querySelector(".popup__input_type_name");
 const jobInput = formElement.querySelector(".popup__input_type_description");
 
+// Funciones
 function openModal(modalEl) {
   modalEl.classList.add("popup_is-opened");
+  //añadir retroalimentación openedPopup para añadir el listener cuando se abre el modal
+  openedPopup = modalEl;
+  document.addEventListener("keydown", closeOverlayUpponEsc);
 }
 
 function closeModal(modalEl) {
   modalEl.classList.remove("popup_is-opened");
+  //eliminar retroalimenatación openedPopup para cuando se abra un nuevo modal no interfiera
+  openedPopup = null;
+  document.removeEventListener("keydown", closeOverlayUpponEsc);
 }
 
 function fillProfileForm() {
@@ -85,6 +78,8 @@ function handleCardFormSubmit(evt) {
   evt.preventDefault();
   const cardElement = getCardElement(cardNameInput.value, cardLinkInput.value);
   cardsContainer.prepend(cardElement);
+  addCardForm.reset();
+  toggleButtonState(inputsNewPlace, newPlaceSubmitBtn); //ayudar al reseteo completo del modal añadir carta
   closeModal(addCardPopupModal);
 }
 
@@ -147,3 +142,58 @@ addCardCloseModalBtn.addEventListener("click", () =>
 );
 
 imagePopupCloseBtn.addEventListener("click", () => closeModal(imagePopup));
+
+// Parte 2 (sprint 7)
+
+const inputsProfileEdit = formElement.querySelectorAll(".popup__input");
+const profileSubmitBtn = formElement.querySelector(".popup__button");
+const inputsNewPlace = addCardForm.querySelectorAll(".popup__input");
+const newPlaceSubmitBtn = addCardForm.querySelector(".popup__button");
+
+// Estado inicial del boton crear tarjeta al cargar la página
+toggleButtonState(inputsNewPlace, newPlaceSubmitBtn);
+
+const allPopups = document.querySelectorAll(".popup");
+
+let openedPopup = null; //revisar que un modal esté abierto
+
+//Validación en tiempo real formulario editProfile
+inputsProfileEdit.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage);
+    } else {
+      hideInputError(input);
+    }
+    toggleButtonState(inputsProfileEdit, profileSubmitBtn);
+  });
+});
+
+//Validación en tiempo real formulario newPlace
+inputsNewPlace.forEach((input) => {
+  input.addEventListener("input", () => {
+    if (!input.validity.valid) {
+      showInputError(input, input.validationMessage);
+    } else {
+      hideInputError(input);
+    }
+    toggleButtonState(inputsNewPlace, newPlaceSubmitBtn);
+  });
+});
+
+//cerrar ventana emergente con click fuera del modal
+function closeOverlayUpponOutsideClick(evt) {
+  if (evt.target === evt.currentTarget) {
+    closeModal(evt.currentTarget);
+  }
+}
+
+allPopups.forEach((popup) => {
+  popup.addEventListener("click", closeOverlayUpponOutsideClick);
+});
+
+function closeOverlayUpponEsc(evt) {
+  if (evt.key === "Escape" && openedPopup) {
+    closeModal(openedPopup);
+  }
+}
