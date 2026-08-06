@@ -1,13 +1,9 @@
 //código JavaScript index.js
 //importar funciones para validación de formularios
-import {
-  showInputError,
-  hideInputError,
-  toggleButtonState,
-} from "./validate.js";
+import { setEventListeners, toggleButtonState } from "./validate.js";
 
 //importar tarjetas iniciales
-import { initialCards } from "./initial_cards.js";
+import { initialCardsList } from "./initialCards.js";
 
 // Variables
 // #
@@ -125,7 +121,7 @@ function renderCard(name, link, container) {
 }
 
 //De imprimir ahora añadirá las tarjetas
-initialCards.forEach(function (item) {
+initialCardsList.forEach(function (item) {
   renderCard(item.name, item.link, cardsContainer);
 });
 
@@ -158,28 +154,10 @@ const allPopups = document.querySelectorAll(".popup");
 let openedPopup = null; //revisar que un modal esté abierto
 
 //Validación en tiempo real formulario editProfile
-inputsProfileEdit.forEach((input) => {
-  input.addEventListener("input", () => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage);
-    } else {
-      hideInputError(input);
-    }
-    toggleButtonState(inputsProfileEdit, profileSubmitBtn);
-  });
-});
+setEventListeners(inputsProfileEdit, profileSubmitBtn);
 
 //Validación en tiempo real formulario newPlace
-inputsNewPlace.forEach((input) => {
-  input.addEventListener("input", () => {
-    if (!input.validity.valid) {
-      showInputError(input, input.validationMessage);
-    } else {
-      hideInputError(input);
-    }
-    toggleButtonState(inputsNewPlace, newPlaceSubmitBtn);
-  });
-});
+setEventListeners(inputsNewPlace, newPlaceSubmitBtn);
 
 //cerrar ventana emergente con click fuera del modal
 function closeOverlayUpponOutsideClick(evt) {

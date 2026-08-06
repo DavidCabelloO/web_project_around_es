@@ -29,3 +29,17 @@ export function toggleButtonState(inputList, buttonElement) {
     buttonElement.disabled = false;
   }
 }
+
+//función encargada de validar pasando el formulario actual
+export function setEventListeners(currentForm, currentButton) {
+  currentForm.forEach((input) => {
+    input.addEventListener("input", () => {
+      if (!input.validity.valid) {
+        showInputError(input, input.validationMessage);
+      } else {
+        hideInputError(input);
+      }
+      toggleButtonState(currentForm, currentButton);
+    });
+  });
+}
