@@ -1,8 +1,15 @@
+interface UserNameAndJob {
+    userName:string;
+    userJob:string;
+}
+
 export class UserInfo {
 private userName:string;
-private job:string;
+private userJob:string;
 
-    constructor({}){
+    constructor({userName,userJob}:UserNameAndJob){
+        this.userName = userName;
+        this.userJob = userJob;
     }
 
    public getUserInfo():void{

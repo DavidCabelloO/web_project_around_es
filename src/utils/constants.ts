@@ -1,7 +1,10 @@
-import type {CardData} from "../types/types";
+import type {FormConfig} from "../types/types.js";
 
-export const defaultFormConfig:CardData ={
-    name: "llama",
-    link: "imagen1",
+export const defaultFormConfig: FormConfig = {
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".pupup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "form_input_type_error",
+    errorClass: "form__input-error-active",
 };
 

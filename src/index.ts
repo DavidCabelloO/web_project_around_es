@@ -5,7 +5,24 @@ import {addCardPopupModal,addCardCloseModalBtn,cardNameInput,cardLinkInput,addCa
 import {imagePopup,imagePopupCloseBtn,imagePopupTitle,imagePopupDisplay} from "./utils/DOMConstants"; // import image popup
 import {popupModal,profileCloseEditBtn,profileName,profileDescription,formElement,nameInput,jobInput} from "./utils/DOMConstants"; // import profile edition
 
-// import InitialCards
+// import components
+import {Card} from "./components/Card.js";
+import { Section } from "./components/Section";
+
+// import init cards
+import type {CardData} from "./types/types.js";
 import {initialCardsList} from "./utils/InitialCards";
 
 
+
+
+
+
+// const cardList = new Section<CardData>({
+//     data:initialCardsList,
+//     renderer: (item) => {
+//         const card =item.is
+//     }
+// }, ".cards")
+
+// cardList.addItem();

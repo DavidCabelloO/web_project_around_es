@@ -1,11 +1,37 @@
-import type { CardData } from "../types/types";
+import type {FormConfig} from "../types/types.js";
+
+interface FormValues{
+    [key:string]:string;
+}
+
+
 export class FormValidator {
-    private config:CardData;
-    private element:HTMLFormElement;
-    constructor(config:CardData, element:HTMLFormElement){
+    private config:FormConfig;
+    private form:HTMLFormElement;
+    private inputList!:NodeListOf<HTMLInputElement>;
+    private buttonElement:HTMLButtonElement;
+    constructor(config:FormConfig, form:HTMLFormElement){
+        this.config = config;
+        this.form = form;
+        this.inputList = Array.from(
+            form.querySelectorAll(config.inputSelector) as HTMLInputElement
+        );
+        const button = form.querySelector<HTMLButtonElement>(config.submitButtonSelector);
+        this.buttonElement = button;
 
 
     }
+
+    private getInputValues(): FormValues {
+        const formValues:FormValues = {};
+
+        this.inputList.forEach((input) => {
+            formValues[input.name] = input.value;
+        });
+
+        return formValues;
+    }
+
     //comprobar validez del campo
     private checkValidity():void{
     }

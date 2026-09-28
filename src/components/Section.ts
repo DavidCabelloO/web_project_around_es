@@ -6,10 +6,10 @@ export class Section<T> {
   private container: HTMLElement;
 
   constructor(
-    { items, renderer }: { items: T[]; renderer: RendererFunction<T> },
+    { data, renderer }: { data: T[]; renderer: RendererFunction<T> },
     containerSelector: string,
   ) {
-    this.renderedItems = items;
+    this.renderedItems = data;
     this.renderer = renderer;
     this.container = document.querySelector(containerSelector) as HTMLElement;
   }
