@@ -7,22 +7,27 @@ import {popupModal,profileCloseEditBtn,profileName,profileDescription,formElemen
 
 // import components
 import {Card} from "./components/Card.js";
-import { Section } from "./components/Section";
+import type {HandleCardClick} from "./components/Card.js"
+import { Section} from "./components/Section.js";
+import type {RendererFunction} from "./components/Section.js";
+import { Popup } from "./components/Popup.js";
+
 
 // import init cards
 import type {CardData} from "./types/types.js";
 import {initialCardsList} from "./utils/InitialCards";
+import { PopupWithImage } from "./components/PopupWithImage";
 
+const initialCardsListHTML = new Section<CardData>(
+    {items:initialCardsList,
+        renderer:(item) => {
+            const card = new Card(item,"#card__template",
+                ()=> {const popup = new PopupWithImage("#card__template",item);
+            });
+                }
+    },
+    ".cards__list"
+)
+    
+initialCardsListHTML.renderItems();
 
-
-
-
-
-// const cardList = new Section<CardData>({
-//     data:initialCardsList,
-//     renderer: (item) => {
-//         const card =item.is
-//     }
-// }, ".cards")
-
-// cardList.addItem();

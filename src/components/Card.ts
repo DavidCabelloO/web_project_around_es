@@ -1,23 +1,20 @@
-import {CardData} from "../types/types.js";
+import type {CardData} from "../types/types.js";
+export type HandleCardClick = () => void;
 
-export abstract class Card {
+export class Card {
   private name: string;
   private link: string;
   private element!: HTMLElement;
   private selector: string;
-  private handleCardClick: () =>void;
+  private handleCardClick: () => void;
 
-  constructor({name, link}:CardData, selector: string, handleCardClick) {
+  constructor({name, link}:CardData, selector: string, handleCardClick:HandleCardClick) {
     this.name = name;
     this.link = link;
     this.selector = selector;
     this.handleCardClick = handleCardClick;
   }
 
-  private handleCardClick = (evt:MouseEvent):void => {
-    const cardElement = this.element.querySelector(".card") as HTMLElement;
-    evt.preventDefault();
-  }
 
   private setEventListeners():void{
     const cardElement = this.element.querySelector(".card") as HTMLElement;
@@ -32,9 +29,11 @@ export abstract class Card {
     return cardElement;
   }
 
-  public generateCard(): HTMLElement;{
+  public generateCard(): HTMLElement{
     this.element = this.getTemplate();
     this.setEventListeners();
+
+    return this.element;
   }
 
 }

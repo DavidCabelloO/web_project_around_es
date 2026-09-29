@@ -1,12 +1,13 @@
 import {Popup} from "./Popup";
+import type {CardData} from "../types/types.js";
 
 export class PopupWithImage extends Popup{   
     private img:string;
     private src:string;
-    constructor(selector:string,img:string,src:string){
+    constructor(selector:string,{name,link}:CardData){
         super(selector);
-        this.img=img;
-        this.src=src;
+        this.img=name;
+        this.src=link;
     }
 
     public open():void{
