@@ -1,0 +1,22 @@
+{
+  "name": "web_project_around_es",
+  "version": "1.0.0",
+  "description": "Este proyecto es una página web interactiva donde los usuarios pueden agregar fotos, eliminarlas y darles me gusta, con un añadido de User Experience y escalabilidad por POO y TS.",
+  "main": "index.js",
+  "scripts": {
+    "compilar": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidCabelloO/web_project_around_es.git"
+  },
+  "keywords": [],
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/DavidCabelloO/web_project_around_es/issues"
+  },
+  "homepage": "https://github.com/DavidCabelloO/web_project_around_es#readme",
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
